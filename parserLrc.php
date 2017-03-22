@@ -62,8 +62,18 @@ function createSyllable($textLine){
 }
 
 function getDurationSyllable($syllables, $lastLine){
-	$i = 0;
-	$j = 0;
+	$i = 1;
+	while($i < count($syllables)){
+		$end = floatval(explode(":", $syllables[$i]['initTime'])[1]);
+		$start = floatval(explode(":", $syllables[$i-1]['initTime'])[1]);
+		$syllables[$i -1]['duration'] = round($end - $start, 3);
+		$i++;
+	}
+	$aux = explode("-", $lastLine);
+	$end = floatval(explode(":", $aux[1])[1]);
+	$start = floatval(explode(":", $aux[0])[1]);
+	$syllables[$i -1]['duration'] = round($end - $start, 3);
+	return $syllables;
 }
 
 
