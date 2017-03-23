@@ -1,6 +1,6 @@
 <?php
 
-$filename = "paulinarubio.lrc";
+$filename = "./paulinarubio.lrc";
 
 $inputFile = fopen($filename, "r") or die("Unable to open file!");
 
@@ -37,7 +37,6 @@ while(!feof($inputFile)) {
 $song = [];
 $song['song'] = $songName;
 $song['lines'] = $lines;
-print_r(json_encode($song,JSON_PRETTY_PRINT));
 $outputFile = fopen($songName."_lrc.json", "w");
 
 fwrite($outputFile, json_encode($song,JSON_PRETTY_PRINT));
@@ -45,7 +44,7 @@ fwrite($outputFile, json_encode($song,JSON_PRETTY_PRINT));
 fclose($inputFile);
 fclose($outputFile);
 
-echo '<br>fin';
+echo json_encode($song);
 
 function createSyllable($textLine){
 	$aux = explode("-", $textLine);
