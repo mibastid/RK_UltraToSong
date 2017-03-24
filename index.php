@@ -8,9 +8,9 @@
 		body{
 			--heightSyllable: 100px;
 		}
-		.syllable{
+		.syllable, .ultraLine{
 			height: var(--heightSyllable);
-			width: 10px;
+			width: auto;
 			background-color: yellow;
 			display: inline-block;
 			position: relative;
@@ -57,12 +57,26 @@
 	</div>
 	<script>
 		var dragAllNext = false;
+		var ultraIndexSyl=0;
+		var ultraIndexLine=0;
 
 		$.get("parser/parserUltra.php", function( data ) {
 			$.each( data["lines"], function( key1, line ) {
+				var init = -1;
 				$.each( line["syllables"], function( key2, syl ) {
-					
-					drawSyl(syl);
+					if(init==-1){
+						init = syl['initTimeBeat'];
+						var newDiv = document.createElement( "div" );
+						newDiv.className += ' ultraLine';
+						ultraIndexLine++;
+						newDiv.id = 'ultraLine-' + ultraIndexLine;
+						newDiv.style.width= 'auto';
+						newDiv.style.height= '200px';
+						newDiv.style.left= (init*10) + 'px';
+						newDiv.style.background= 'gray';
+						$(".sylSlider.scrolls").append(newDiv);
+					}
+					drawSyl(syl, init);
 					for (i = 0; i < 11; i++) { 
 						drawScale();
 					}
@@ -80,14 +94,15 @@
 			scaleCount++;
 		}
 
-		var indexSyl=0;
+		
 
-		function drawSyl(syl){
+		function drawSyl(syl, init){
 			var newDiv = document.createElement( "div" );
 			newDiv.className += ' syllable';
-			newDiv.id = 'ultraSyl-' + indexSyl++;
+			ultraIndexSyl++;
+			newDiv.id = 'ultraSyl-' + ultraIndexSyl;
 			newDiv.style.width= (syl['durationBeat']*10) + 'px';
-			newDiv.style.left= (syl['initTimeBeat']*10) + 'px';
+			newDiv.style.left= ((syl['initTimeBeat'] - init)*10) + 'px';
 			var newDiv1 = document.createElement( "div" );
 			newDiv1.className += ' dragText';
 			newDiv1.innerHTML = syl['value'];
@@ -98,7 +113,8 @@
 			newDiv.appendChild(newDiv1);
 			newDiv.appendChild(newDiv2);
 			newDiv.appendChild(newDiv3);
-			$(".sylSlider.scrolls").append(newDiv);
+			$("#ultraLine-"+ ultraIndexLine).width(newDiv);
+			$("#ultraLine-"+ ultraIndexLine).append(newDiv);
 		}
 
 		function putEvents(){
