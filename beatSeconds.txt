@@ -1,0 +1,6 @@
+(NSInteger)beatAtTime:(NSTimeInterval)time {    return floor((time - [self.gap floatValue]) / [[self bmpTime] floatValue] );}
+
+(NSNumber *)bmpTime {    return @(1.0f / [self.bpm floatValue] / 4.0f *  60.0f * 1000.0f);}
+
+NÚMERO DE SEGUNDOS QUE OCUPA UN BEAT
+ segundos1Beat =    1 / bpm / 4 * 60 * 1000  
