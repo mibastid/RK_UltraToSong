@@ -13,10 +13,10 @@
 			width: auto;
 			background-color: yellow;
 			display: inline-block;
-			position: relative;
+			position: absolute;
 		}
-		.wrapper {margin: auto;text-align: center;position: relative;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;margin-bottom: 20px !important;padding-top: 2px;}
-		.scrolls {margin-top: 0px;overflow-x: scroll;overflow-y: hidden;white-space:nowrap;} 
+		.wrapper {margin: auto;position: relative;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;margin-bottom: 20px !important;padding-top: 2px;}
+		.scrolls {margin-bottom: 500px;overflow-x: hidden;overflow-y: hidden;white-space:nowrap;} 
 		.scaleIndex{
 			height: 4px;
 			width: 8px;
@@ -33,12 +33,12 @@
 			width: 100%;
 			height: 40%;
 		}
-		.dragOne{
+		.dragOneSyl{
 			width: 100%;
 			height: 30%;
 			background-color: green;
 		}
-		.dragAll{
+		.dragAllSyl{
 			width: 100%;
 			height: 30%;
 			background-color: blue;
@@ -46,8 +46,7 @@
 	</style>
 </head>
 <body>
-	Hola mundo!
-	<br>
+	<h4 id="currentAction">Hola mundo</h4>
 	<div class="sylContainer wrapper">
 		
 		<div class="sylSlider scrolls">
@@ -56,7 +55,7 @@
 		
 	</div>
 	<script>
-		var dragAllNext = false;
+		var dragAllSylNext = false;
 		var ultraIndexSyl=0;
 		var ultraIndexLine=0;
 
@@ -77,11 +76,9 @@
 						$(".sylSlider.scrolls").append(newDiv);
 					}
 					drawSyl(syl, init);
-					for (i = 0; i < 11; i++) { 
-						drawScale();
-					}
 				});
 			});
+			calculeWidths();
 			putEvents();
 		}, "json" );
 
@@ -107,23 +104,25 @@
 			newDiv1.className += ' dragText';
 			newDiv1.innerHTML = syl['value'];
 			var newDiv2 = document.createElement( "div" );
-			newDiv2.className += ' dragOne';
+			newDiv2.className += ' dragOneSyl';
 			var newDiv3 = document.createElement( "div" );
-			newDiv3.className += ' dragAll';
+			newDiv3.className += ' dragAllSyl';
 			newDiv.appendChild(newDiv1);
 			newDiv.appendChild(newDiv2);
 			newDiv.appendChild(newDiv3);
-			$("#ultraLine-"+ ultraIndexLine).width(newDiv);
 			$("#ultraLine-"+ ultraIndexLine).append(newDiv);
 		}
 
 		function putEvents(){
-			$( ".syllable" ).draggable({ handle: ".dragOne, .dragAll" },{axis: "x"},{ grid: [10,0]},
+			$( ".syllable" ).draggable({ handle: ".dragOneSyl, .dragAllSyl" },{axis: "x"},{ grid: [10,0]},
 				{stop: function(event, ui){
-					if(dragAllNext){
+					if(dragAllSylNext){
 						var elementId = parseInt($(this).attr('id').split('-')[1]);
 						var move = ui.position.left - ui.originalPosition.left;
-						$( ".syllable" ).each(function( index) {		
+						var parentId = $(this).parent().attr('id');
+						console.log(parentId);
+						console.log($("#" + parentId )[0]);
+						$("#" + parentId + " .syllable" ).each(function( index) {		
 							if(parseInt($(this).attr('id').split('-')[1]) > elementId){
 								var newPosition = parseInt($(this).css('left')) + move;
 								$(this).css('left', newPosition);
@@ -131,12 +130,28 @@
 						});
 					}
 				}});
-			$(".dragOne").mousedown(function() {
-				dragAllNext = false;
+			$(".dragOneSyl").mousedown(function() {
+				dragAllSylNext = false;
+				$('#currentAction').text("Mover sólo esta sílaba")
 			});
-			$(".dragAll").mousedown(function() {
-				dragAllNext = true;
+			$(".dragAllSyl").mousedown(function() {
+				dragAllSylNext = true;
+				$('#currentAction').text("Mover todas las sílabas del verso")
 			});
+		}
+
+		function calculeWidths(){
+			var lines = document.querySelector(".sylSlider.scrolls").childNodes;
+			for (var i = 3; i < ultraIndexLine+3; i++) {
+				var lastSyl = lines[i].lastChild;
+				var lineWidth = parseInt(lastSyl.style.left) + parseInt(lastSyl.style.width); 
+				lines[i].style.width = lineWidth + "px";
+			}
+			var lastLine = document.querySelector(".sylSlider.scrolls").lastChild;
+			var aux = (parseInt(lastLine.style.left) + parseInt(lastLine.style.width))/10; 
+			for (i = 0; i < aux; i++) { 
+				drawScale();
+			}
 		}
 	</script>
 </body>
