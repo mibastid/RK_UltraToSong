@@ -43,6 +43,23 @@
 			height: 30%;
 			background-color: blue;
 		}
+
+		.dragOneLine{
+			width: 50%;
+			height: 30%;
+			position: absolute;
+			bottom: 0%;
+			left: 0%;
+			background-color: green;
+		}
+		.dragAllLine{
+			width: 50%;
+			height: 30%;
+			position: absolute;
+			bottom: 0%;
+			left: 50%;
+			background-color: blue;
+		}
 	</style>
 </head>
 <body>
@@ -55,7 +72,7 @@
 		
 	</div>
 	<script>
-		var dragAllSylNext = false;
+		var dragAllFlag = false;
 		var ultraIndexSyl=0;
 		var ultraIndexLine=0;
 
@@ -65,15 +82,8 @@
 				$.each( line["syllables"], function( key2, syl ) {
 					if(init==-1){
 						init = syl['initTimeBeat'];
-						var newDiv = document.createElement( "div" );
-						newDiv.className += ' ultraLine';
 						ultraIndexLine++;
-						newDiv.id = 'ultraLine-' + ultraIndexLine;
-						newDiv.style.width= 'auto';
-						newDiv.style.height= '200px';
-						newDiv.style.left= (init*10) + 'px';
-						newDiv.style.background= 'gray';
-						$(".sylSlider.scrolls").append(newDiv);
+						$(".sylSlider.scrolls").append(drawLine(init,ultraIndexLine));
 					}
 					drawSyl(syl, init);
 				});
@@ -92,6 +102,22 @@
 		}
 
 		
+		function drawLine(init, index){
+			var newDiv = document.createElement( "div" );
+			newDiv.className += ' ultraLine';
+			newDiv.id = 'ultraLine-' + index;
+			newDiv.style.width= 'auto';
+			newDiv.style.height= '200px';
+			newDiv.style.left= (init*10) + 'px';
+			newDiv.style.background= 'gray';
+			var newDiv1 = document.createElement( "div" );
+			newDiv1.className += ' dragOneLine';
+			var newDiv2 = document.createElement( "div" );
+			newDiv2.className += ' dragAllLine';
+			newDiv.appendChild(newDiv1);
+			newDiv.appendChild(newDiv2);
+			return newDiv;
+		}
 
 		function drawSyl(syl, init){
 			var newDiv = document.createElement( "div" );
@@ -116,12 +142,10 @@
 		function putEvents(){
 			$( ".syllable" ).draggable({ handle: ".dragOneSyl, .dragAllSyl" },{axis: "x"},{ grid: [10,0]},
 				{stop: function(event, ui){
-					if(dragAllSylNext){
+					var parentId = $(this).parent().attr('id');
+					var move = ui.position.left - ui.originalPosition.left;
+					if(dragAllFlag){
 						var elementId = parseInt($(this).attr('id').split('-')[1]);
-						var move = ui.position.left - ui.originalPosition.left;
-						var parentId = $(this).parent().attr('id');
-						console.log(parentId);
-						console.log($("#" + parentId )[0]);
 						$("#" + parentId + " .syllable" ).each(function( index) {		
 							if(parseInt($(this).attr('id').split('-')[1]) > elementId){
 								var newPosition = parseInt($(this).css('left')) + move;
@@ -129,15 +153,52 @@
 							}
 						});
 					}
+					var parentDiv = $("#" + parentId);
+					var parentChildren = parentDiv.children();
+					var firstLeft = parseInt(parentChildren.first().css("left"));
+					var lastLeft = parseInt(parentChildren.last().css("left"));
+					var lastWidth = parseInt(parentChildren.last().width());
+					var containerLeft = parseInt(parentDiv.css("left"));
+					parentDiv.width(lastLeft + lastWidth - firstLeft);
+					parentDiv.css("left", containerLeft + firstLeft);
+					if(firstLeft != 0){
+						$("#" + parentId + " .syllable" ).each(function( index) {
+							var newPosition = parseInt($(this).css('left')) - move;	
+							$(this).css('left', newPosition);
+						});
+					}
 				}});
 			$(".dragOneSyl").mousedown(function() {
-				dragAllSylNext = false;
+				dragAllFlag = false;
 				$('#currentAction').text("Mover sólo esta sílaba")
 			});
 			$(".dragAllSyl").mousedown(function() {
-				dragAllSylNext = true;
-				$('#currentAction').text("Mover todas las sílabas del verso")
+				dragAllFlag = true;
+				$('#currentAction').text("Mover todas las sílabas posteriores a la vez")
 			});
+			$(".dragOneLine").mousedown(function() {
+				dragAllFlag = false;
+				$('#currentAction').text("Mover sólo esta línea")
+			});
+			$(".dragAllLine").mousedown(function() {
+				dragAllFlag = true;
+				$('#currentAction').text("Mover todas las líneas posteriores a la vez")
+			});
+			$( ".ultraLine" ).draggable({ handle: ".dragOneLine, .dragAllLine" },{axis: "x"},{ grid: [10,0]},
+				{stop: function(event, ui){
+					if(dragAllFlag){
+						var move = ui.position.left - ui.originalPosition.left;
+						var elementId = parseInt($(this).attr('id').split('-')[1]);
+						var parentId = $(this).parent().attr('id');
+						console.log(elementId);
+						$(".ultraLine" ).each(function( index) {		
+							if(parseInt($(this).attr('id').split('-')[1]) > elementId){
+								var newPosition = parseInt($(this).css('left')) + move;
+								$(this).css('left', newPosition);
+							}
+						});
+					}
+				}});
 		}
 
 		function calculeWidths(){
