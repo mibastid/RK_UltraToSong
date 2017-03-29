@@ -3,7 +3,6 @@ var ultraIndexSyl=0;
 var ultraIndexLine=0;
 
 $.get("parser/parserUltra.php", function( data ) {
-		console.log('adios');
 	$.each( data["lines"], function( key1, line ) {
 		var init = -1;
 		$.each( line["syllables"], function( key2, syl ) {
@@ -60,9 +59,13 @@ function drawSyl(syl, init){
 	newDiv2.className += ' dragOneSyl';
 	var newDiv3 = document.createElement( "div" );
 	newDiv3.className += ' dragAllSyl';
+	var newDiv4 = document.createElement( "div" );
+	newDiv4.className += ' noteUltra';
+	newDiv4.innerHTML = syl['note'];
 	newDiv.appendChild(newDiv1);
 	newDiv.appendChild(newDiv2);
 	newDiv.appendChild(newDiv3);
+	newDiv.appendChild(newDiv4);
 	$("#ultraLine-"+ ultraIndexLine).append(newDiv);
 }
 

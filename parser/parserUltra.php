@@ -8,6 +8,8 @@ $songName = explode('.txt', $filename)[0];
 
 $lines = [];
 
+$song = [];
+
 if(!feof($inputFile)) {
 	$txt = utf8_encode(fgets($inputFile));
 }
@@ -15,6 +17,17 @@ if(!feof($inputFile)) {
 while(!feof($inputFile)) {
 	$line = [];
 	$aux = [];
+	while(strcmp($txt[0],'#')==0){
+		if (strcmp($txt[1].$txt[2].$txt[3], 'BPM') == 0){
+			$song['BPM'] = utf8_encode(explode(':', $txt)[1]);
+		}elseif(strcmp($txt[1].$txt[2].$txt[3], 'GAP') == 0){
+			$song['GAP'] = utf8_encode(explode(':', $txt)[1]);
+			//echo $song['GAP'];
+		}elseif(strcmp($txt[1].$txt[2].$txt[3].$txt[4].$txt[5], 'TITLE') == 0){
+			$song['TITLE'] = utf8_encode(explode(':', $txt)[1]);
+		}
+		$txt = utf8_encode(fgets($inputFile));
+	}
 	while((strcmp($txt[0],':')==0 || strcmp($txt[0],'*')==0) && !feof($inputFile)){
 		$syllable = createSyllable($txt);
 		array_push($aux, $syllable);
@@ -31,8 +44,8 @@ while(!feof($inputFile)) {
 
 
 
-$song = [];
-$song['song'] = 'ho';
+
+$song['song'] = 'hola';
 $song['lines'] = $lines;
 //print_r($song);
 //echo json_encode(print_r($song, true));
@@ -43,8 +56,8 @@ echo json_encode($song);
 fwrite($outputFile, json_encode($song,JSON_PRETTY_PRINT));
 
 fclose($inputFile);
-fclose($outputFile);*/
-
+fclose($outputFile);
+*/
 
 
 function createSyllable($textLine){

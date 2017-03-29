@@ -2,7 +2,6 @@ var lrcIndexSyl=0;
 var lrcIndexLine=0;
 
 $.get("parser/parserLrc.php", function( data ) {
-	console.log('hola');
 	$.each( data["lines"], function( key1, line ) {
 		var init = -1;
 		var i = 0;
@@ -21,11 +20,10 @@ $.get("parser/parserLrc.php", function( data ) {
 
 var calculeLrcWidths = () => {
 	var lines = document.querySelector(".lrcSlider.scrolls").childNodes;
-	console.log(lines);
 	for (var i = 1; i < lrcIndexLine +1 ; i++) {
 		var lastSyl = lines[i].lastChild;
-		var lineWidth = parseInt(lastSyl.style.left) + parseInt(lastSyl.style.width); 
-		lines[i].style.width = lineWidth + "px";
+		//var lineWidth = parseInt(lastSyl.style.left) + parseInt(lastSyl.style.width); 
+		//lines[i].style.width = lineWidth + "px";
 	}
 	var lastLine = document.querySelector(".lrcSlider.scrolls").lastChild;
 	var aux = (parseInt(lastLine.style.left) + parseInt(lastLine.style.width))/10; 
