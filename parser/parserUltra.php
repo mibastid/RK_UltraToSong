@@ -1,6 +1,6 @@
 <?php
 
-$filename = "./paulinarubio.txt";
+$filename = "./output.txt";
 
 $inputFile = fopen($filename, "r") or die("Unable to open file!");
 
@@ -27,22 +27,25 @@ while(!feof($inputFile)) {
 	}
 	$txt = utf8_encode(fgets($inputFile));
 	
-	
 }
 
 
 
 $song = [];
-$song['song'] = $songName;
+$song['song'] = 'ho';
 $song['lines'] = $lines;
-$outputFile = fopen($songName."_ultra.json", "w");
+//print_r($song);
+//echo json_encode(print_r($song, true));
+echo json_encode($song);
+
+/*$outputFile = fopen($songName."_ultra.json", "w");
 
 fwrite($outputFile, json_encode($song,JSON_PRETTY_PRINT));
 
 fclose($inputFile);
-fclose($outputFile);
+fclose($outputFile);*/
 
-echo json_encode($song);
+
 
 function createSyllable($textLine){
 	$aux = explode(" ", $textLine);
