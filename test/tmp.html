@@ -1,0 +1,63 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>UltraStar Editor</title>
+  <meta name="description" content="UltraStar Editor">
+  <meta name="author" content="SitePoint">
+
+</head>
+
+<body>
+  <script src="../js/lrcHelper.js"></script>
+  <script src="../js/ultraStarHelper.js"></script>
+  <script src="../js/ultraStarJustify.js"></script>
+  <script src="../js/removeDiacritics.js"></script>
+  <h1>Lyrics-UltraStar Editor</h1>
+
+  
+  <script>
+var ultraContent = '#BPM:260\n' +
+'#GAP:4800\n' +
+': 3 2 12 Me es\n' +
+': 7 2 12 ta\n' +
+': 11 2 12  gri\n' +
+': 15 2 12 tan\n' +
+': 19 2 12 do\n' +
+'- 21\n' +
+': 23 3 12 ya\n' +
+': 27 6 13  se\n' +
+': 35 2 12  que\n' +
+': 39 2 12  no\n' +
+': 43 2 10  se en\n' +
+': 47 4 10 te\n' +
+': 52 9 12 ra\n' +
+'- 65\n' +
+': 67 2 12 El\n' +
+': 71 2 12  co\n' +
+': 75 2 12 ra\n'
+
+console.log(JSON.stringify(ultraStarHelperParseHtml(ultraContent)));
+
+    /*
+    var lrcContent = '0:01.542-0:03.543- ♪ \r' +
+'0:02.042-0:03.543- ♪ \r' +
+'0:02.542-0:03.543- ♪ \r' +
+'0:03.042-0:03.543- ♪ \r' +
+'0:03.542-0:03.543- ♪\n\r' +
+'0:04.060-0:05.200-Es-\r' +
+'0:04.260-0:05.200-tá \r' +
+'0:04.470-0:05.200-gri-\r' +
+'0:04.730-0:05.200-tan-\r' +
+'0:04.970-0:05.200-do\n\r' +
+'0:05.200-0:07.660-ya \r' +
+'0:05.440-0:07.660-sé ';
+console.log(JSON.stringify(lrcHelperParseHtml(lrcContent)));
+
+*/
+  </script>
+  
+</body>
+</html>

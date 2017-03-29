@@ -1,0 +1,58 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>UltraStar Editor</title>
+  <meta name="description" content="UltraStar Editor">
+  <meta name="author" content="SitePoint">
+
+</head>
+
+<body>
+  <script src="../js/lrcHelper.js"></script>
+  <script src="../js/ultraStarHelper.js"></script>
+  <script src="../js/ultraStarJustify.js"></script>
+  <script src="../js/removeDiacritics.js"></script>
+  <h1>Lyrics-UltraStar Editor</h1>
+  <input type="file" id="fileLrc" name="files[]" multiple />
+  <input type="file" id="fileUltra" name="files[]" multiple />
+  
+  <script>
+    var lrcContent;
+    var ultraContent;
+
+    function handleLrcFileSelect(evt) {
+      var files = evt.target.files; // FileList object
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        console.log('handleLrcFileSelect reader on load')
+        lrcContent = reader.result
+        console.log(JSON.stringify(lrcHelperParseHtml(lrcContent)));
+      }
+      reader.readAsText(files[0]);
+    }
+    function handleUltraFileSelect(evt) {
+      var files = evt.target.files; // FileList object
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        console.log('handleUltraFileSelect reader on load')
+        ultraContent = reader.result
+
+        // ultra star file justify
+        var output = ultraStarJustifyProcessFiles(lrcContent, ultraContent);
+        
+        var justifyUltra = JSON.stringify(ultraStarHelperParseHtml(output));
+        var originalUltra = JSON.stringify(ultraStarHelperParseHtml(ultraContent));
+
+
+      }
+      reader.readAsText(files[0], 'ISO-8859-1');
+    }
+    document.getElementById('fileLrc').addEventListener('change', handleLrcFileSelect, false);
+    document.getElementById('fileUltra').addEventListener('change', handleUltraFileSelect, false);
+  </script>
+  
+</body>
+</html>
