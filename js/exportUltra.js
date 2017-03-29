@@ -1,6 +1,7 @@
 
 document.getElementById('exportUltra').addEventListener('click', function () {
-  createLines();
+  createFile(createLines());
+
 });
 
 
@@ -21,27 +22,23 @@ var createLines = () => {
             value = syl.childNodes[k].innerHTML;
           }  
         }
-        var initTime = parseInt(lines[i].style.left) + parseInt(syl.style.left);
+        var initTime = (parseInt(lines[i].style.left) + parseInt(syl.style.left))/10;
+        var duration = parseInt(syl.style.width)/10;
+        positions.push(": " + initTime + " " + duration + " " + note + " " + value);
       }     
-
     }
-
+    //positions.push();
   }
+  console.info(positions);
+  return positions;
 }
 
 
-
-// var textFile = null,
-//   makeTextFile = function (text) {
-//     var data = new Blob([text], {type: 'text/plain'});
-
-//     // If we are replacing a previously generated file we need to
-//     // manually revoke the object URL to avoid memory leaks.
-//     if (textFile !== null) {
-//       window.URL.revokeObjectURL(textFile);
-//     }
-
-//     textFile = window.URL.createObjectURL(data);
-
-//     return textFile;
-//   };
+var createFile = (lines) => {
+  var text="";
+  for (var i = 0; i < lines.length - 1; i++) {
+    text = text + lines[i] + '\n';
+  }
+  
+  download(text, "ultra.txt", "text/plain");
+}

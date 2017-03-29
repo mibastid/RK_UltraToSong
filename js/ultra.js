@@ -133,14 +133,14 @@ function putEvents(){
 
 function calculeWidths(){
 	var lines = document.querySelector(".sylSlider.scrolls").childNodes;
-	for (var i = 3; i < ultraIndexLine+3; i++) {
+	for (var i = 0; i < ultraIndexLine; i++) {
 		var lastSyl = lines[i].lastChild;
 		var lineWidth = parseInt(lastSyl.style.left) + parseInt(lastSyl.style.width); 
 		lines[i].style.width = lineWidth + "px";
 	}
 	var lastLine = document.querySelector(".sylSlider.scrolls").lastChild;
 	var aux = (parseInt(lastLine.style.left) + parseInt(lastLine.style.width))/10; 
-	for (i = 0; i < aux; i++) { 
-		drawScale();
-	}
+	//for (i = 0; i < aux; i++) { 
+		//drawScale();
+	//}
 }

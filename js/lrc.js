@@ -14,23 +14,9 @@ $.get("parser/parserLrc.php", function( data ) {
 			$(".lrcLine#lrcLine-"+lrcIndexLine).append(drawLrcSyl(syl, init ,i++));
 		});
 	});
-	calculeLrcWidths();
 }, "json" );
 
 
-var calculeLrcWidths = () => {
-	var lines = document.querySelector(".lrcSlider.scrolls").childNodes;
-	for (var i = 1; i < lrcIndexLine +1 ; i++) {
-		var lastSyl = lines[i].lastChild;
-		//var lineWidth = parseInt(lastSyl.style.left) + parseInt(lastSyl.style.width); 
-		//lines[i].style.width = lineWidth + "px";
-	}
-	var lastLine = document.querySelector(".lrcSlider.scrolls").lastChild;
-	var aux = (parseInt(lastLine.style.left) + parseInt(lastLine.style.width))/10; 
-	for (i = 0; i < aux; i++) { 
-		drawScale();
-	}
-}
 
 
 var drawLrcLine = (init, index) => {
