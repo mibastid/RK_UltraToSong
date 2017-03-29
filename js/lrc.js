@@ -42,11 +42,16 @@ var drawLrcLine = (init, index) => {
 	newDiv.style.left= (init*10) + 'px';
 	return newDiv;
 }
+<<<<<<< HEAD
 var drawLrcSyl = (syl, init, index) => {
+=======
+var drawLrcSyl = (syl, init) => {
+>>>>>>> master
 	var newDiv = document.createElement( "div" );
 	newDiv.className += ' lrcSyl';
 	newDiv.style.left= ((timeToBeat(syl['initTime']) - init)*10) + 'px';
 	newDiv.innerHTML= syl['value'];
+<<<<<<< HEAD
 	if(index % 3 == 0){
 		newDiv.innerHTML= syl['value'];
 	} else if (index % 3 == 1){
@@ -54,6 +59,8 @@ var drawLrcSyl = (syl, init, index) => {
 	} else{
 		newDiv.innerHTML= '<br><br>' + syl['value'];
 	}
+=======
+>>>>>>> master
 	return newDiv;
 }
 
