@@ -1,12 +1,25 @@
 body{
 	--heightSyllable: 100px;
+	--color1:  #ff0045;
+	--color2:  #F05353;
+	--color3:  #E28966;
+	--color4:  #D7AA7C;
+	--color5:  #D7E7CE;
+	--color6:  #F7EBC8;
 }
 .syllable, .ultraLine{
 	height: var(--heightSyllable);
 	width: auto;
-	background-color: yellow;
+	background-color: var(--color6);
 	display: inline-block;
 	position: absolute;
+	border-width: 1px 0px 1px 0px;
+	border-style: solid;
+	border-color: black;
+}
+
+.ultraLine{
+	background-color: var(--color5);
 }
 
 .wrapper {margin: auto;position: relative;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;margin-bottom: 20px !important;padding-top: 2px;}
@@ -27,18 +40,27 @@ body{
 .dragText{
 	width: 100%;
 	height: 40%;
+	border-width: 1px 0px 1px 0px;
+	border-style: solid;
+	border-color: black;
 }
 
 .dragOneSyl{
 	width: 100%;
 	height: 30%;
-	background-color: green;
+	background-color: var(--color2);
+	border-width: 1px 0px 1px 0px;
+	border-style: solid;
+	border-color: black;
 }
 
 .dragAllSyl{
 	width: 100%;
 	height: 30%;
-	background-color: blue;
+	background-color: var(--color4);
+	border-width: 1px 0px 1px 0px;
+	border-style: solid;
+	border-color: black;
 }
 
 .dragOneLine{
@@ -47,7 +69,10 @@ body{
 	position: absolute;
 	bottom: 0%;
 	left: 0%;
-	background-color: green;
+	background-color: var(--color2);
+	border-width: 1px 0px 1px 0px;
+	border-style: solid;
+	border-color: black;
 }
 .dragAllLine{
 	width: 50%;
@@ -55,7 +80,10 @@ body{
 	position: absolute;
 	bottom: 0%;
 	left: 50%;
-	background-color: blue;
+	background-color: var(--color4);
+	border-width: 1px 0px 1px 0px;
+	border-style: solid;
+	border-color: black;
 }
 .lrcLine{
 	background-color: black;
@@ -66,14 +94,27 @@ body{
 }
 
 .lrcSyl{
-	height: var(--heightSyllable);
+	height: 310px;
 	width: 0px;
 	background-color: transparent;
-	border-left:  1px dotted gray;
+	border-left:  1px dotted black;
 	display: inline-block;
 	position: absolute;
 }
 
 .noteUltra{
 	display: none;
+}
+
+.gridSlider.scrolls{
+	margin-bottom: 10px;
+}
+
+.gridElement{
+	height: 330px;
+	width: 9px;
+	background-color: #fffff1;
+	border-left:  1px dotted #ffb3c4;
+	display: inline-block;
+	position: absolute;
 }

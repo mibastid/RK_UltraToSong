@@ -8,6 +8,8 @@ document.getElementById('exportUltra').addEventListener('click', function () {
 var createLines = () => {
   var positions = [];
   var aux = "";
+  positions.push("#BPM:" + $(".sylSlider").attr( "bpm"));
+  positions.push("#GAP:" + $(".sylSlider").attr( "gap"));
   var lines = document.querySelectorAll('.ultraLine');
   for (var i = 0; i < lines.length - 1; i++) {
     for (var j = 0; j < lines[i].childNodes.length; j++) {

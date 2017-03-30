@@ -3,6 +3,8 @@ var ultraIndexSyl=0;
 var ultraIndexLine=0;
 
 function loadUltra( data ) {
+	$(".sylSlider").attr( "gap", data['gap'] );
+	$(".sylSlider").attr( "bpm", data['bpm'] );
 	$.each( data["lines"], function( key1, line ) {
 		var init = -1;
 		$.each( line["syllables"], function( key2, syl ) {
@@ -16,6 +18,7 @@ function loadUltra( data ) {
 	});
 	calculeWidths();
 	putEvents();
+	drawGrid();
 }
 
 var scaleCount =0;
@@ -35,7 +38,6 @@ function drawLine(init, index){
 	newDiv.style.width= 'auto';
 	newDiv.style.height= '200px';
 	newDiv.style.left= (init*10) + 'px';
-	newDiv.style.background= 'gray';
 	var newDiv1 = document.createElement( "div" );
 	newDiv1.className += ' dragOneLine';
 	var newDiv2 = document.createElement( "div" );
@@ -143,4 +145,17 @@ function calculeWidths(){
 	//for (i = 0; i < aux; i++) { 
 		//drawScale();
 	//}
+}
+
+
+function drawGrid(){
+	var aux = document.querySelectorAll('.lrcLine');
+	aux = parseInt(aux[aux.length - 1].style.left)/10;
+	aux = aux * 1.1;
+	for (var i = 0; i < aux; i++) {
+		var newDiv = document.createElement( "div" );
+		newDiv.className += ' gridElement';
+		newDiv.style.left= (i*10) + 'px';
+		$(".gridSlider.scrolls").append(newDiv);
+	}
 }
