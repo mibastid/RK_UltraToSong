@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script	src="https://code.jquery.com/jquery-3.2.1.min.js"	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="	crossorigin="anonymous"></script>
+	<script  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="  crossorigin="anonymous"></script>
+	<script  src="js/download.js"></script>
+	<script  src="js/lrcHelper.js"></script>
+	<script  src="js/ultraStarHelper.js"></script>
+	<script  src="js/ultraStarJustify.js"></script>
+	<script  src="js/removeDiacritics.js"></script>
+
+
+
+</head>
+<body>
+	<h4 id="currentAction">Hola mundo</h4>
+	<button id="exportUltra">Create file</button>
+	<input type="file" id="fileLrc" name="files[]" multiple />
+	<input type="file" id="fileUltra" name="files[]" multiple />
+	<br>
+	<div class="lrcContainer wrapper">
+		<div class="lrcSlider scrolls"></div>
+	</div>	<div class="sylContainer wrapper">
+	<div class="sylSlider scrolls"></div>
+</div>
+
+
+
+<script>
+	var lrcContent;
+	var ultraContent;
+
+	function handleLrcFileSelect(evt) {
+      var files = evt.target.files; // FileList object
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+      	lrcContent = reader.result
+      }
+      reader.readAsText(files[0]);
+  }
+  function handleUltraFileSelect(evt) {
+      var files = evt.target.files; // FileList object
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+      	ultraContent = reader.result
+
+      	var output = ultraStarJustifyProcessFiles(lrcContent, ultraContent);
+        var ultra = ultraStarHelperParseHtml(output);
+        var bpm = ultra['bpm'];
+      	loadLrc(lrcHelperParseHtml(lrcContent), bpm);
+      	loadUltra(ultra);
+
+      }
+      reader.readAsText(files[0], 'ISO-8859-1');
+  }
+  document.getElementById('fileLrc').addEventListener('change', handleLrcFileSelect, false);
+  document.getElementById('fileUltra').addEventListener('change', handleUltraFileSelect, false);
+</script>
+
+<script src="js/timeSecBeat.js"></script>
+<script src="js/lrc.js"></script>
+<script src="js/ultra.js"></script> 
+<script src="js/exportUltra.js"></script> 
+</body>
+</html>

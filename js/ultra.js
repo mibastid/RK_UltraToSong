@@ -2,7 +2,7 @@ var dragAllFlag = false;
 var ultraIndexSyl=0;
 var ultraIndexLine=0;
 
-$.get("parser/parserUltra.php", function( data ) {
+function loadUltra( data ) {
 	$.each( data["lines"], function( key1, line ) {
 		var init = -1;
 		$.each( line["syllables"], function( key2, syl ) {
@@ -16,7 +16,7 @@ $.get("parser/parserUltra.php", function( data ) {
 	});
 	calculeWidths();
 	putEvents();
-}, "json" );
+}
 
 var scaleCount =0;
 function drawScale(){

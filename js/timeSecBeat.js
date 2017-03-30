@@ -1,11 +1,11 @@
-var timeToBeat = (time) =>{
+var timeToBeat = (time, bpm) =>{
 	var aux = time.toString().split(":");
 	if(aux.length>1){
 		time = parseFloat(aux[0]) * 60 + parseFloat(aux[1]);
 	}else{
 		time = parseFloat(time);
 	}
-	return beatAtTime(parseFloat(time*1000), 216, 0);
+	return beatAtTime(parseFloat(time*1000), bpm, 0);
 }
 
 var beatAtTime = (time, bpm, gap) => {

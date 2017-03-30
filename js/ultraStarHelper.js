@@ -101,7 +101,8 @@ var ultraStarHelperParse = (content) => {
 }
 
 var ultraStarHelperParseHtml = (content) => {
-  var ultra = ultraStarHelperParse(content)
+  var ultra = ultraStarHelperParse(content);
+  console.warn(ultra);
   
   var steps = [];
   //var lines = ultraStarHelperLines(ultra)

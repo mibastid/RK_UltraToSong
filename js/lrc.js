@@ -1,20 +1,23 @@
 var lrcIndexSyl=0;
 var lrcIndexLine=0;
 
-$.get("parser/parserLrc.php", function( data ) {
+ function loadLrc( data ,bpm) {
+ 	console.log('loadLrc:'+bpm)
 	$.each( data["lines"], function( key1, line ) {
 		var init = -1;
 		var i = 0;
 		$.each( line["syllables"], function( key2, syl ) {
 			if(init==-1){
-				init = timeToBeat(syl['initTime']);
+				init = timeToBeat(syl['initTime'], bpm);
 				lrcIndexLine++;
 				$(".lrcSlider.scrolls").append(drawLrcLine(init,lrcIndexLine));
 			}		
-			$(".lrcLine#lrcLine-"+lrcIndexLine).append(drawLrcSyl(syl, init ,i++));
+			$(".lrcLine#lrcLine-"+lrcIndexLine).append(drawLrcSyl(syl, init ,i++, bpm));
 		});
 	});
-}, "json" );
+}
+
+
 
 
 
@@ -27,10 +30,10 @@ var drawLrcLine = (init, index) => {
 	return newDiv;
 }
 
-var drawLrcSyl = (syl, init, index) => {
+var drawLrcSyl = (syl, init, index, bpm) => {
 	var newDiv = document.createElement( "div" );
 	newDiv.className += ' lrcSyl';
-	newDiv.style.left= ((timeToBeat(syl['initTime']) - init)*10) + 'px';
+	newDiv.style.left= ((timeToBeat(syl['initTime'], bpm) - init)*10) + 'px';
 	newDiv.innerHTML= syl['value'];
 	if(index % 3 == 0){
 		newDiv.innerHTML= syl['value'];
