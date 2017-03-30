@@ -85,11 +85,12 @@ function putEvents(){
 			}
 			var parentDiv = $("#" + parentId);
 			var parentChildren = parentDiv.children();
-			var firstLeft = parseInt(parentChildren.first().css("left"));
+			var firstLeft = parseInt(parentChildren[2].style.left);
 			var lastLeft = parseInt(parentChildren.last().css("left"));
 			var lastWidth = parseInt(parentChildren.last().width());
 			var containerLeft = parseInt(parentDiv.css("left"));
 			parentDiv.width(lastLeft + lastWidth - firstLeft);
+			console.error(firstLeft);
 			parentDiv.css("left", containerLeft + firstLeft);
 			if(firstLeft != 0){
 				$("#" + parentId + " .syllable" ).each(function( index) {
@@ -120,7 +121,6 @@ function putEvents(){
 				var move = ui.position.left - ui.originalPosition.left;
 				var elementId = parseInt($(this).attr('id').split('-')[1]);
 				var parentId = $(this).parent().attr('id');
-				console.log(elementId);
 				$(".ultraLine" ).each(function( index) {		
 					if(parseInt($(this).attr('id').split('-')[1]) > elementId){
 						var newPosition = parseInt($(this).css('left')) + move;
